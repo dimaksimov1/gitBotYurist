@@ -237,22 +237,6 @@ def messagesStart(message):
                                        ))
 
 
-@bot.message_handler(commands=['readvideo'])
-def readvideo(message):
-    mySQLer.deleteBdAll('dbVideo')
-    for file in os.listdir('video/'):
-        if file.split('.')[-1] == 'mp4':
-            f = open('video/' + file, 'rb')
-            print(file)
-            # bot.send_video(message.chat.id, f, None)
-            msg = bot.send_video(message.chat.id, open('video/' + file, 'rb'), None)
-            bot.send_message(message.chat.id, msg.video.file_id, reply_to_message_id=msg.message_id)
-
-            mySQLer.insertBd('dbVideo', {'fileId': msg.video.file_id, 'nameVideo': file})
-        time.sleep(2)
-    mySQLer.connectBd('dbVideo')
-
-
 @bot.message_handler(commands=['info'])
 def printInfo(message):
     print(message)
